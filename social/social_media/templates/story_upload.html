@@ -1,0 +1,103 @@
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+<style>
+    body {
+        background-color: #2e2c36 !important;
+    }
+
+    .drop_box {
+        margin: 10px 0;
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border: 3px dotted rgb(61, 61, 161);
+        border-radius: 5px;
+    }
+
+    .container {
+        height: 100vh;
+        width: 100%;
+        margin-left: 120px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+        width: 600px;
+        height: auto;
+        background-color: white;
+        padding: 10px 30px 40px;
+    }
+
+    #submit {
+        background-color: rgba(61, 61, 161, 0.285) !important;
+        border-radius: 20px !important;
+        color: #0e0e10 !important;
+        padding: 10px 20px 10px 20px;
+        filter: brightness(204%) contrast(100%) !important;
+        cursor: pointer;
+        width: 40%;
+        letter-spacing: 3px;
+        border: rgb(61, 61, 161) solid;
+        font-size: large;
+    }
+
+    #submit:hover {
+        background-color: rgb(71, 71, 126) !important;
+        border-radius: 20px !important;
+        color: white !important;
+        padding: 10px 20px 10px 20px;
+    }
+    .caption{
+        display: inline-flex;
+        flex-direction: row;
+        padding: 10px;
+    }
+    #caption-input{
+        margin-left: 25px;
+        border-radius: 10px;
+        padding: 10px;
+        border: 2px solid rgb(61, 61, 161);
+        background-color: rgba(61, 61, 161, 0.096);
+    }
+    .caption label{
+        padding: 10px;
+        font-size:larger;
+        font-weight: bold;
+        /* color: rgb(61, 61, 161);; */
+    }
+   
+</style>
+{% block title %}Upload{% endblock %}
+
+<body style="background-color: #2e2c36;">
+    <div class="container" style="background-color: #2e2c36;">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card">
+                <h3>Upload Files</h3>
+                <div class="drop_box">
+                    <header>
+                        <h4>Select File here</h4>
+                    </header>
+                    <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
+                    <input type="file" name="img" id="fileID"> <br>
+                    <div class="caption">
+                        <label for="" >Caption :-</label><br>
+                        <input type="text" name="caption"  id="caption-input"><br>
+                    </div>
+                    <input type="submit" value="Upload" name="" id="submit">
+                </div>
+
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

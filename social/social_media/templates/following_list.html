@@ -1,0 +1,238 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'profiless.css' %}">
+<style>
+    body {
+        background-color: #2e2c36 !important;
+    }
+
+
+    h2,
+    p,
+    div {
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        font-weight: bold;
+    }
+
+    div.more {
+        display: none;
+        margin: 10px 0 0 0;
+        padding: 10px;
+        background-color: #eee;
+        position: relative;
+    }
+
+    div.more.visible {
+        display: block;
+    }
+
+    div.more li {
+        list-style: none;
+        line-height: 1.4em;
+        font-size: 90%;
+    }
+
+    div.more .close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        color: #c0c7d4;
+        cursor: pointer;
+    }
+
+    .search-result {
+        background-color: #1e1e21;
+        border-radius: 5px;
+        padding: 15px !important;
+        display: flex;
+        position: relative;
+    }
+
+    .search-result.new-job {
+        border-left: 5px solid #1a74e5;
+    }
+
+    .search-result.new-job .badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 5px 10px;
+        border-radius: 15px;
+        border: 2px solid #1a74e5;
+        background-color: #1a75e55a;
+        color: #f9f9f9;
+    }
+
+    .search-result h2 {
+        color: #f9f9f9;
+    }
+
+    .search-result a {
+        text-decoration: none;
+        color: #f9f9f9;
+    }
+
+    .search-result .icon {
+        margin: 0 15px 0 0;
+    }
+
+    .search-result .reviews {
+        color: #1a74e5;
+    }
+
+    .search-result .actions {
+        color: #c0c7d4;
+        margin-top: 10px;
+        font-size: 90%;
+    }
+
+    .search-result span {
+        margin-right: 10px;
+    }
+
+    .search-result div>div p {
+        color: #c0c7d4;
+        margin-top: 10px;
+    }
+
+    .search-result .company,
+    .search-result .stars,
+    .search-result .reviews {
+        font-size: 110%;
+        margin-right: 0 !important;
+        margin-top: 5px !important;
+    }
+
+    .search-result .stars {
+        position: relative;
+        display: inline-block;
+        height: 16px;
+        width: 86px;
+        background: url(https://www.indeed.com/cmp/_s/s/40b77a6/5stars_lg.png) 0px 33px;
+        background-size: 85px 32px;
+    }
+
+    .search-result .stars-inner {
+        display: inline-block;
+        height: 16px;
+        width: 86px;
+        background: url(https://www.indeed.com/cmp/_s/s/40b77a6/5stars_lg.png) 0 17px;
+        background-size: 85px 32px;
+    }
+
+    body {
+        background: #2e2c36 !important;
+    }
+
+    .navWidth {
+        width: 260px !important;
+        height: 600px !important;
+        overflow-y: scroll !important;
+    }
+
+    .profile-image {
+        float: left;
+        width: 200px !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 3rem;
+    }
+
+    .profile-image img {
+        width: 100%;
+    }
+
+    a {
+        text-decoration: none !important;
+        color: #f7f7f7;
+    }
+</style>
+<div style="margin-left: 300px;">
+    <h1 class="cont">Profile</h1>
+
+    <header>
+
+        <div class="container">
+
+            <div class="profile">
+
+                <div class="profile-image">
+                    <img src="/media/{{profile.profile_pic}}" alt="">
+                </div>
+
+                <div class="profile-user-settings">
+
+                    <h1 class="profile-user-name" style="color: #f7f7f7;">{{profile.user}}</h1>
+                </div>
+
+                <div class="profile-stats">
+
+                    <ul>
+                        {% if profile.user == user %}
+                        <li style="color: #f7f7f7;"><a href="{% url 'profile' %}"><span class="profile-stat-count"
+                                    style="color: #f7f7f7;">{{postnum}}</span> posts</a></li>
+                        {% else %}
+                        <li style="color: #f7f7f7;"><a href="{% url 'showprofile' profile.id profile.user %}"><span
+                                    class="profile-stat-count" style="color: #f7f7f7;">{{postnum}}</span> posts</a></li>
+                        {% endif %}
+                        <li style="color: #f7f7f7;"> <a href="{% url 'follower' profile.id %} "
+                                style="color: #f7f7f7;"><span class="profile-stat-count"
+                                    style="color: #f7f7f7;">{{profile.follower.count}}</span> followers </a></li>
+                        <li style="color: #f7f7f7;"><span class="profile-stat-count"
+                                style="color: #f7f7f7;">{{profile.following.count}}</span style="color: #f7f7f7;">
+                            following</li>
+                    </ul>
+
+                </div>
+                <div class="profile-bio">
+
+                    <p style="color: #f7f7f7;"><span class="profile-real-name"
+                            style="color: #f7f7f7;">{{profile.user}}</span style="color: #f7f7f7;"> {{profile.Bio}}</p>
+
+                </div>
+
+            </div>
+            <!-- End of profile section -->
+
+        </div>
+        <!-- End of container -->
+
+    </header>
+</div>
+<div style="margin-left: 300px; margin-top: 10px;">
+    {% for i in profil %}
+    <div class="search-result new-job">
+        {% if user in i.follower.all %}
+        <a class="badge" href="/follow_custom/{{profile.id}}/{{i.id}}/{{profile.user}}">UnFollow</a>
+        {% elif user in i.follow_request.all %}
+        <a class="badge" href="/delet_request/{{i.id}}/{{username}}">Requested</a>
+        {% else %}
+        <a class="badge" type="submit" href="/follow_custom/{{profile.id}}/{{i.id}}/{{profile.user}}">Follow</a>
+        {% endif %}
+        <div class="icon">
+            <img src="/media/{{i.profile_pic}}" height="40px !important" style="object-fit: contain;" width="60" />
+        </div>
+        <div class="content">
+            <h2><a href="{% url 'showprofile' i.id i.user %}"> {{i.user}}</a></h2>
+            <p>
+                <span class="company"><a href=""> </a></span>
+            </p>
+
+            <div class="actions">
+
+                <span class="email"><a href="/email"> {{i.follower.count}} Followers</a></span>
+                <span class="more"><a href="/more">{{i.following.count}} Following</a></span>
+            </div>
+        </div>
+    </div> <br>
+
+
+
+    {% endfor %}
+    {% endblock %}

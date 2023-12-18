@@ -1,0 +1,137 @@
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'profile_edit.css' %}">
+
+<style>
+  body {
+    background-color: #2e2c36 !important;
+    font-family: Lato;
+  }
+
+  .profile{
+  
+  top: 0 ;
+  margin-top: 100px !important;
+  bottom: auto;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  height: auto;
+  width: 70%;
+  margin: 20px auto;
+  margin-left: 300px;
+  
+  background-color: #fff;
+  border-top: 5px solid rgb(61, 116, 161);
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 2.5px 5px #ccc;
+}
+
+.btn{
+  background-color: #ccc;
+}
+fieldset.btn{
+  background-color: #1a74e5 !important;
+}
+.cancel{
+  background-color: #0766db3a !important;
+  border: 3px #1a74e5 solid !important;
+  box-shadow: none !important;
+  color: #2e2c36 !important;
+  letter-spacing: 2px;
+  font-size: large;
+}
+.cancel:hover{
+  background-color: #1a74e5 !important;
+  color: #ccc !important;
+
+}
+</style>
+<div>
+  <div class="wrapper">
+
+    <div class="profile">
+      <div class="content">
+        <h1>Edit Profile</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <!-- Photo -->
+          <fieldset>
+            <div class="grid-35">
+              <label for="avatar">Your Photo</label>
+            </div>
+            <div class="grid-65">
+              <span class="photo" title="Upload your Avatar!"></span>
+              <input type="file" name='image' class="btn" />
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="grid-35">
+              <label for="fname">First Name</label>
+            </div>
+            <div class="grid-65">
+              <input type="text" name="fname" value="{{user.first_name}}" id="fname" tabindex="1" />
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="grid-35">
+              <label for="lname">Last Name</label>
+            </div>
+            <div class="grid-65">
+              <input type="text" name="lname" value="{{user.last_name}}" id="lname" tabindex="2" />
+            </div>
+          </fieldset>
+          <!-- Description about User -->
+          <fieldset>
+            <div class="grid-35">
+              <label for="description">Bio</label>
+            </div>
+            <div class="grid-65">
+              <input name="about" value="{{prof.Bio}}" id="" cols="30" rows="auto" tabindex="3">
+            </div>
+          </fieldset>
+          <!-- mobile -->
+          <fieldset>
+            <div class="grid-35">
+              <label for="email">Mobile Number</label>
+            </div>
+            <div class="grid-65">
+              <input type="text" name="mnum" value="{{prof.Mobile_number}}" id="email" tabindex="6" />
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="grid-35">
+              <label for="email">UserName</label>
+            </div>
+            <div class="grid-65">
+              <input type="text" name="uname" value="{{user.username}}" id="email" tabindex="6" />
+            </div>
+          </fieldset>
+          <!-- Email -->
+          <fieldset>
+            <div class="grid-35">
+              <label for="email">Email Address</label>
+            </div>
+            <div class="grid-65">
+              <input type="email" name='email' value="{{user.email}}" id="email" tabindex="6" />
+            </div>
+          </fieldset>
+          <!-- Looking for Work -->
+
+
+          <fieldset>
+            <input type="button" class="Btn cancel" value="Cancel" />
+            <input type="submit" class="Btn cancel" value="Save Changes" />
+          </fieldset>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+<!-- http://www.smashingmagazine.com/2013/08/08/release-livestyle-css-live-reload/ -->

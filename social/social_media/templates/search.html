@@ -1,0 +1,157 @@
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+<style>
+  body {
+    background-color: #2e2c36 !important;
+  }
+
+
+  h2,
+  p,
+  div {
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    font-weight: bold;
+  }
+
+  div.more {
+    display: none;
+    margin: 10px 0 0 0;
+    padding: 10px;
+    background-color: #eee;
+    position: relative;
+  }
+
+  div.more.visible {
+    display: block;
+  }
+
+  div.more li {
+    list-style: none;
+    line-height: 1.4em;
+    font-size: 90%;
+  }
+
+  div.more .close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: #c0c7d4;
+    cursor: pointer;
+  }
+
+  .search-result {
+    background-color: #1e1e21;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    position: relative;
+  }
+
+  .search-result.new-job {
+    border-left: 5px solid #1a74e5;
+  }
+
+  .search-result.new-job .badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: 2px solid #1a74e5;
+    background-color: #1a75e55a;
+    color: #f9f9f9;
+  }
+
+  .search-result h2 {
+    color: #f9f9f9;
+  }
+
+  .search-result a {
+    text-decoration: none;
+    color: #f9f9f9;
+  }
+
+  .search-result .icon {
+    margin: 0 15px 0 0;
+  }
+
+  .search-result .reviews {
+    color: #1a74e5;
+  }
+
+  .search-result .actions {
+    color: #c0c7d4;
+    margin-top: 10px;
+    font-size: 90%;
+  }
+
+  .search-result span {
+    margin-right: 10px;
+  }
+
+  .search-result div>div p {
+    color: #c0c7d4;
+    margin-top: 10px;
+  }
+
+  .search-result .company,
+  .search-result .stars,
+  .search-result .reviews {
+    font-size: 110%;
+    margin-right: 0 !important;
+    margin-top: 5px !important;
+  }
+
+  .search-result .stars {
+    position: relative;
+    display: inline-block;
+    height: 16px;
+    width: 86px;
+    background: url(https://www.indeed.com/cmp/_s/s/40b77a6/5stars_lg.png) 0px 33px;
+    background-size: 85px 32px;
+  }
+
+  .search-result .stars-inner {
+    display: inline-block;
+    height: 16px;
+    width: 86px;
+    background: url(https://www.indeed.com/cmp/_s/s/40b77a6/5stars_lg.png) 0 17px;
+    background-size: 85px 32px;
+  }
+</style>
+
+<div style="margin-left: 300px; margin-top: 100px;">
+  {% for i in result %}
+  <div class="search-result new-job">
+    {% if user in i.follower.all %}
+    <a class="badge" href="/follow/{{i.id}}/{{username}}">UnFollow</a>
+    {% elif user in i.follow_request.all %}
+    <a class="badge" href="/delet_request/{{i.id}}/{{username}}">Requested</a>
+    {% else %}
+    <a class="badge" href="/follow/{{i.id}}/{{username}}">Follow</a>
+    {% endif %}
+    <div class="icon">
+      <img src="/media/{{i.profile_pic}}" height="40px" style="object-fit: contain;" width="60" />
+    </div>
+    <div class="content">
+      <h2><a href="{% url 'showprofile' i.id i.user %}"> {{i.user}}</a></h2>
+      <p>
+        <span class="company"><a href=""> </a></span>
+      </p>
+
+      <div class="actions">
+
+        <span class="email"><a href="/email"> {{i.follower.count}} Followers</a></span>
+        <span class="more"><a href="/more">{{i.following.count}} Following</a></span>
+      </div>
+    </div>
+  </div> <br>
+
+  {% endfor %}
+</div>
+{% endblock %}

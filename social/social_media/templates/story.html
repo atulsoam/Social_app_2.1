@@ -1,0 +1,279 @@
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .story-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 350px;
+        position: fixed;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        font-family: Arial, sans-serif;
+        margin: 10px;
+        /* display: none; */
+    }
+
+    .story-header {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .story-header img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .story-header h3 {
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .story-header span {
+        font-size: 14px;
+        color: #888;
+        margin-left: auto;
+    }
+
+    .story-content {
+        padding: 10px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .story-content img {
+        width: 100%;
+        height: 400px;
+        object-fit: contain;
+
+    }
+
+    .story-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 10px;
+        border-top: 1px solid #ccc;
+    }
+
+    .story-controls {
+        display: flex;
+        align-items: center;
+    }
+
+    .story-control-btn {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        margin-right: 10px;
+        color: #888;
+    }
+
+    .story-progress-bar {
+        width: 100%;
+        height: 4px;
+        background-color: #ddd;
+        border-radius: 2px;
+        margin: 10px 0;
+    }
+
+    .story-progress {
+        height: 100%;
+        background-color: #1a74e5;
+        border-radius: 2px;
+        width: 0%;
+        transition: width 2s linear;
+    }
+
+    .story-footer:hover .story-progress {
+        transition: none;
+    }
+
+    #story-previous-btn {
+        background-color: transparent;
+        padding: 200px 100px 250px 40px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #story-next-btn {
+        background-color: transparent;
+        padding: 200px 40px 250px 100px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .story-caption {
+        background-color: #2626264e;
+        color: black;
+        position: absolute;
+        bottom: 0;
+        padding: 20px 150px 40px;
+        margin: 0;
+        overflow: hidden;
+    }
+</style>
+
+
+<div class="story-container" id="stori-container" style="margin-left: 500px; margin-top: 80px;">
+    <div class="story-header">
+        <img src="" alt="Profile Picture">
+        <h3 class="username"></h3>
+        <span>Timestamp</span>
+        <button class="story-control-btn" id="story-close-btn" onclick="window.location.href= '/'">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+    <div class="story-content">
+        <img src="/social/media/social_media/pictures/profice/post/Id_card_photo.jpeg" alt="Story Image">
+        <button class="story-control-btn" id="story-previous-btn">
+
+        </button>
+        <button class="story-control-btn" id="story-next-btn">
+        </button>
+        <p class="story-caption"></p>
+    </div>
+    <div class="story-footer">
+        <div class="story-controls">
+
+        </div>
+        <div class="story-progress-bar">
+            <div class="story-progress"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // Get the HTML elements
+    const storyContainer = document.querySelector('.story-container');
+    const storyContent = storyContainer.querySelector('.story-content');
+    const storyProgressBar = storyContainer.querySelector('.story-progress');
+    const storyPrevBtn = storyContainer.querySelector('#story-previous-btn');
+    const storyNextBtn = storyContainer.querySelector('#story-next-btn');
+    const storyCloseBtn = storyContainer.querySelector('#story-close-btn');
+    const storyCaption = storyContainer.querySelector('.story-caption');
+    const storyHeader = storyContainer.querySelector('.story-header')
+    function story() {
+        document.getElementById("stori-container").style.display = "block";
+    }
+
+
+    // Set the initial progress to 0%
+    storyProgressBar.style.width = '0%';
+
+    // Define the story data
+    const storyData = [];
+    {% for i in stori %}
+    storyData.push({ image: '/media/{{i.story}}', caption: '{{i.caption}}', user: '{{i.user}}', profile_pic: "/media/{{i.profiles.profile_pic}}" })
+    {% endfor %}
+
+    // Define the current story index
+    let currentStoryIndex = 0;
+    const autoSwitchInterval = 15000;
+
+    // Function to update the story content
+    function updateStoryContent() {
+        // Get the current story object
+        const currentStory = storyData[currentStoryIndex];
+
+        // Update the story image
+        storyContent.querySelector('img').src = currentStory.image;
+        if (currentStory.caption) {
+            storyContent.querySelector('p').style.display = 'block'
+            storyContent.querySelector('p').innerHTML = currentStory.caption;
+        }
+        else {
+            storyContent.querySelector('p').style.display = 'none'
+        }
+        storyHeader.querySelector('h3').innerHTML = currentStory.user;
+        storyHeader.querySelector('img').src = currentStory.profile_pic;
+    }
+
+    // Function to handle the story navigation
+    function handleStoryNavigation(direction) {
+        // Update the current story index based on the direction
+        if (direction === 'prev' && currentStoryIndex > 0) {
+            currentStoryIndex--;
+        } else if (direction === 'next' && currentStoryIndex < storyData.length - 1) {
+            currentStoryIndex++;
+        }
+        // Update the story content and progress bar
+        updateStoryContent();
+        updateStoryProgressBar();
+    }
+
+
+
+    function updateStoryProgressBar() { // Calculate the current progress 
+        const progress = (currentStoryIndex + 1) / storyData.length * 100;
+        // Update the progress bar width 
+        storyProgressBar.style.width = `${progress}%`;
+        //  Reset the progress bar after 15 seconds 
+        // setTimeout(() => { storyProgressBar.style.width = '0%'; }, 15000);
+    }
+
+    // Function to close the story
+    function closeStory() {
+        // Hide the story container
+        storyContainer.style.display = 'none';
+
+        // Reset the current story index and progress bar
+        currentStoryIndex = 0;
+        storyProgressBar.style.width = '0%';
+    }
+
+    // Function to switch to the next story automatically
+    function switchToNextStory() {
+        if (currentStoryIndex === storyData.length - 1) {
+            // If the current story is the last one, close the story
+            closeStory();
+        } else {
+            // Otherwise, switch to the next story
+            currentStoryIndex++;
+            updateStoryContent();
+            updateStoryProgressBar();
+        }
+    }
+
+    // Start the auto switch interval
+    let autoSwitchIntervalId = setInterval(switchToNextStory, autoSwitchInterval);
+
+    // Stop the auto switch interval when the user interacts with the story
+    function stopAutoSwitchInterval() {
+        clearInterval(autoSwitchIntervalId);
+    }
+
+    // Add event listeners to the navigation buttons
+    storyPrevBtn.addEventListener('click', () => {
+        handleStoryNavigation('prev');
+        stopAutoSwitchInterval();
+    });
+    storyNextBtn.addEventListener('click', () => {
+        handleStoryNavigation('next');
+        stopAutoSwitchInterval();
+    });
+
+    // Add event listener to the close button
+    storyCloseBtn.addEventListener('click', closeStory);
+
+    // Initialize the story content and progress bar
+    updateStoryContent();
+    updateStoryProgressBar();
+</script>
+
+{% endblock %}

@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Instagram Profile</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #fafafa;
+    }
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding-top: 50px;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+
+    .username {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .user-stats {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .user-stats span {
+        margin-right: 10px;
+    }
+
+    .post-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .post {
+        width: calc(33.33% - 20px);
+        margin-right: 20px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .post:last-of-type {
+        margin-right: 0;
+    }
+
+    .post img,
+    .post video {
+        width: 100%;
+    }
+
+    .post-menu {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .delete-post-button {
+        background-color: transparent;
+        border: none;
+        font-size: 20px;
+        color: #000;
+        cursor: pointer;
+    }
+
+    .post-footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .like-button,
+    .comment-button {
+        background-color: transparent;
+        border: none;
+        font-size: 16px;
+        color: #000;
+        cursor: pointer;
+    }
+
+    .comment-section {
+        margin-top: 10px;
+    }
+
+    .comment-section h3 {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .comment-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .comment-list li {
+        margin-bottom: 5px;
+    }
+
+    .comment-section form {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .comment-section form input[type="text"] {
+        flex: 1;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .comment-section form button[type="submit"] {
+        background-color: #3897f0;
+        border: none;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .comment-section form button[type="submit"]:hover {
+        background-color: #357ae8;
+    }
+
+    .edit-profile-button {
+        background-color: #3897f0;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .edit-profile-button:hover {
+        background-color: #357ae8;
+    }
+
+    /* Media queries */
+
+    @media (max-width: 768px) {
+        .container {
+            width: 90%;
+        }
+
+        .post {
+            width: calc(50% - 10px);
+            margin-right: 10px;
+        }
+
+        .post:last-of-type {
+            margin-right: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .post {
+            width: 100%;
+            margin-right: 0;
+        }
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <img class="profile-picture" src="/social/media/social_media/pictures/story/-original-imagkx8c2sejghyf.webp">
+            <div>
+                <div class="username">John Doe</div>
+                <div class="user-stats">
+                    <span>100 posts</span>
+                    <span>100 followers</span>
+                    <span>100 following</span>
+                </div>
+            </div>
+            <button class="edit-profile-button">Edit Profile</button>
+        </div>
+        <div class="post-container">
+            <div class="post">
+                <img src="/social/media/social_media/pictures/profice/post/Id_card_photo-removebg-preview.jpg">
+                <div class="post-menu">
+                    <button class="delete-post-button" data-post-id="1">...</button>
+                </div>
+                <div class="post-footer">
+                    <button class="like-button" data-post-id="1">Like</button>
+                    <button class="comment-button" data-post-id="1">Comment</button>
+                </div>
+                <div class="comment-section">
+                    <h3>Comments</h3>
+                    <ul class="comment-list">
+                        <li>Great post!</li>
+                        <li>Awesome picture!</li>
+                    </ul>
+                    <form>
+                        <input type="text" placeholder="Add a comment...">
+                        <button type="submit">Post</button>
+                    </form>
+                </div>
+            </div>
+            <div class="post">
+                <video src="" controls></video>
+                <div class="post-menu">
+                    <button class="delete-post-button" data-post-id="2">...</button>
+                </div>
+                <div class="post-footer">
+                    <button class="like-button" data-post-id="2">Like</button>
+                    <button class="comment-button" data-post-id="2">Comment</button>
+                </div>
+                <div class="comment-section">
+                    <h3>Comments</h3>
+                    <ul class="comment-list">
+                        <li>Nice video!</li>
+                        <li>Love the scenery!</li>
+                    </ul>
+                    <form>
+                        <input type="text" placeholder="Add a comment...">
+                        <button type="submit">Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    // Get all the delete post buttons
+    const deleteButtons = document.querySelectorAll('.delete-post-button');
+
+    // Loop through each button and add a click event listener
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const post = button.closest('.post');
+            post.remove();
+        });
+    });
+
+    // Get the comment form and comment list
+    const commentForm = document.querySelector('#comment-form');
+    const commentList = document.querySelector('#comment-list');
+
+    // Add a submit event listener to the comment form
+    commentForm.addEventListener('submit', event => {
+        event.preventDefault();
+
+        // Get the input field and the comment value
+        const inputField = commentForm.querySelector('input[type="text"]');
+        const comment = inputField.value;
+
+        // Create a new list item and add the comment text to it
+        const listItem = document.createElement('li');
+        listItem.innerText = comment;
+
+        // Add the new list item to the comment list
+        commentList.appendChild(listItem);
+
+        // Clear the input field
+        inputField.value = '';
+    });
+
+</script>
+
+</html>

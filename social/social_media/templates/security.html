@@ -1,0 +1,103 @@
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 55px;
+        height: 25px;
+        /* margin-top: 100px; */
+        /* left: 50%; */
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    table {
+        width: 80%;
+    }
+
+    h3 {
+        color: #ccc;
+    }
+
+    .submit-btn {
+        margin-top: 40%;
+        margin-left: 40%;
+    }
+</style>
+<div style="margin-left: 300px; margin-top: 100px;">
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>
+                    <h3>Private Account: </h3>
+                </th>
+                <td>
+
+                    <label class="switch">
+                        <input type="checkbox" {% if profi.is_private %} checked {% endif %} name="check">
+                        <span class="slider round"></span>
+
+                    </label>
+
+                </td>
+            </tr>
+
+        </table>
+        <input type="submit" class="submit-btn" name="" id="">
+    </form>
+</div>
+{% endblock %}

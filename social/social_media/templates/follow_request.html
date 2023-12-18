@@ -1,0 +1,64 @@
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        #customers td,
+        #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #0b7dda;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="margin-left: 300px; margin-top: 100px;">
+        <table id="customers">
+            <tr>
+                <th>Person</th>
+                <th colspan="2">Status</th>
+
+            </tr>
+            {% for i in profi.follow_request.all %}
+            <tr>
+                <td>{{i.username}} {{i.id}}</td>
+                <td><a href="{% url 'request_accept' i.id %}">Accept</a></td>
+                <td><a href="{% url 'request_reject' i.id %}">Reject</a></td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+
+</html>
+
+
+
+{% endblock %}

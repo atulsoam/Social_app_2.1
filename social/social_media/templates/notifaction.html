@@ -1,0 +1,81 @@
+
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Notification Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    h1 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        margin-left: 300px;
+        margin-top: 100px;
+    }
+
+    .notification {
+        border: 1px solid #0b7dda;
+        margin-bottom: 10px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #eee;
+    }
+
+    .notification-message {
+        font-size: 18px;
+        
+    }
+
+    .notification-actions {
+        /* display: flex;
+        justify-content:end; */
+        text-align: end;
+        margin-top: 10px;
+    }
+
+    .action-button {
+        background-color: #eee;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 5px 10px;
+        display: inline-block;
+    }
+
+    .action-button:hover {
+        background-color: #ddd;
+    }
+</style>
+
+<body>
+    
+    <ul id="notification-list">
+        {% for i in notify %}
+        <li class="notification">
+            <div class="notification-message">{{i.sender_user}} {{i.content}}</div>
+            <div class="notification-actions">
+                <button class="action-button" data-action="action1">Action 1</button>
+                <button class="action-button" data-action="action2">Action 2</button>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+{% endblock %}
